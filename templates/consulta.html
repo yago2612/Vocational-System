@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Resultado de Consulta Vocacional</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .btn-hover-effect:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    }
+    iframe {
+      width: 100%;
+      height: 400px;
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-[#0F172A] to-[#38BDF8] min-h-screen flex items-center justify-center px-4">
+
+  <div class="bg-white rounded-2xl shadow-xl p-8 max-w-5xl w-full space-y-6">
+    <h2 class="text-3xl font-bold text-[#0F172A] text-center">Resultado de Orientación Vocacional</h2>
+
+    <!-- Datos del estudiante -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-gray-800">
+      <div>
+        <p class="text-lg"><span class="font-semibold">Estudiante:</span> {{ nombre }}</p>
+        <p class="text-sm text-gray-500">ID: {{ session['id_usuario'] }}</p>
+        <p class="text-sm text-gray-500">Fecha: {{ fecha }}</p>
+        <p class="mt-4 text-lg"><span class="font-semibold">Línea sugerida:</span> 
+          <span class="text-[#0F172A] font-bold">{{ sugerencia }}</span>
+        </p>
+        <p class="text-sm text-gray-500 mt-1"><span class="font-medium">Cluster asignado:</span> {{ cluster }}</p>
+      </div>
+
+      <!-- Stats por porcentaje (usamos `distribucion`) -->
+      <div>
+        <p class="text-lg font-semibold text-[#0F172A] mb-2">Distribución en el área cercana:</p>
+        {% if distribucion %}
+        <ul class="list-disc pl-6 space-y-1 text-gray-700 text-sm">
+          {% for linea, porcentaje in distribucion.items() %}
+            <li><span class="font-medium">{{ linea }}</span>: {{ porcentaje }}%</li>
+          {% endfor %}
+        </ul>
+        {% else %}
+          <p class="text-gray-500">No se detectaron líneas cercanas.</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Gráfico PCA incrustado -->
+    <div class="mt-6">
+      <h3 class="text-xl font-semibold text-[#0F172A] mb-3">Mapa PCA interactivo:</h3>
+      <iframe src="/static/mapa_pca_interactivo.html"></iframe>
+    </div>
+
+    <!-- Botón para volver -->
+    <div class="text-center">
+      <a href="/perfil" class="mt-4 inline-block bg-[#38BDF8] text-white px-6 py-3 rounded-lg font-semibold shadow btn-hover-effect">
+        Volver al perfil
+      </a>
+    </div>
+  </div>
+
+</body>
+</html>
